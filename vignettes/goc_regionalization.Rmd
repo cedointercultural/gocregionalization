@@ -262,7 +262,7 @@ sf::st_write(ramsar.sim, here::here("outputs","simple_ramsar_all.shp"), delete_l
 Read polygons that were edited manually
 ```{r}
 
-goc.rev <- sf::st_read(here::here("inputs","shapefiles","Extension_poligonal_corregida_210726","Extension_poligonal_corregida_210726.shp"))
+goc.rev <- sf::st_read(here::here("inputs","shapefiles","goc_polygon_final_092526.shp"))
 
 prepare_shapefile(goc.rev)
 

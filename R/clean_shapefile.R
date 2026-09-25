@@ -1,4 +1,5 @@
-prepare_shapefile <- function(goc.rev){
+clean_shapefile <- function(goc.rev){
+
   goc.rev.nonempty <- goc.rev[!sf::st_is_empty(goc.rev), ]
 
   clean.goc <- goc.rev.nonempty %>%
@@ -23,27 +24,7 @@ prepare_shapefile <- function(goc.rev){
   #extract table
 
 
-  googlesheets4::gs4_deauth()
-
-  table.rev <- googlesheets4::read_sheet("1KGbhvBVplhrY1Y0cPLe_lY6Bk7e9ZjpFL7TU5TEHNJE", sheet="pol_char") %>%
-    dplyr::select(-area_sq_km)
-
-  rev.num <- dplyr::left_join(clean.goc.centroids, table.rev, by = c("box_no")) %>%
-    dplyr::filter(eliminated==0) %>%
-    dplyr::select(-box_no, -eliminated) %>%
-    dplyr::rename(box_no=new_num)
-
-#test islands
-  islands <- rev.num %>% dplyr::filter(polygon_type=="island")
-
- test.plot <- ggplot2::ggplot() +
-    ggplot2::geom_sf(data = islands, color = "red", alpha = 0.5) + # Outlines
-    ggplot2::theme_bw() # Use a clean theme
-
-
   table.goc <- sf::st_drop_geometry(clean.goc.centroids)
-
-  readr::write_csv(table.goc, here::here("outputs", "goc_polygon_final_table_09142026.csv"))
 
   sf::st_write(clean.goc.centroids, here::here("outputs", "goc_polygons_final_09142026.shp"), delete_layer = TRUE)
 }

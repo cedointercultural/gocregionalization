@@ -262,9 +262,17 @@ sf::st_write(ramsar.sim, here::here("outputs","simple_ramsar_all.shp"), delete_l
 Read polygons that were edited manually
 ```{r}
 
-goc.rev <- sf::st_read(here::here("inputs","shapefiles","goc_polygon_final_092526.shp"))
+goc.rev <- sf::st_read(here::here("inputs","shapefiles","goc_polygons_final_bgm.shp"))
 
-prepare_shapefile(goc.rev)
+layer.name <- "goc_polygons_final_bgm_09292026"
+clean_shapefile(goc.rev, layer.name)
+
+goc.val <- sf::st_read(here::here("outputs","goc_polygons_final_bgm_09292026.shp"))
+
+layer.name <- "goc_polygons_bgm"
+update_numbering(goc.val, layer.name)
+
+
 
 ```
 
